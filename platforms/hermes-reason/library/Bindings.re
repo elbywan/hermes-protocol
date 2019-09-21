@@ -143,7 +143,7 @@ let hermes_dialogue_publish_continue_session =
 let hermes_dialogue_publish_end_session =
   bind(
     "hermes_dialogue_publish_end_session",
-    !*CDialogueFacade.view @-> !*CStartSessionMessage.view @>> snips_result,
+    !*CDialogueFacade.view @-> !*CEndSessionMessage.view @>> snips_result,
   );
 
 let hermes_dialogue_publish_start_session =
@@ -213,14 +213,16 @@ let hermes_dialogue_subscribe_session_started =
 let hermes_injection_publish_injection_request =
   bind(
     "hermes_injection_publish_injection_request",
-    !*CInjectionFacade.view @-> CInjectionRequestMessage.view @>> snips_result,
+    !*CInjectionFacade.view
+    @-> !*CInjectionRequestMessage.view
+    @>> snips_result,
   );
 
 let hermes_injection_publish_injection_reset_request =
   bind(
     "hermes_injection_publish_injection_reset_request",
     !*CInjectionFacade.view
-    @-> CInjectionResetRequestMessage.view
+    @-> !*CInjectionResetRequestMessage.view
     @>> snips_result,
   );
 

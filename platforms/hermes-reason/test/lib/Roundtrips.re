@@ -4,11 +4,14 @@ open Foreign;
 open HermesReason.Structs;
 open HermesReason.Enums;
 
-let opened = HermesReason.Utils.openDynamicLibrary("../../target/debug/libhermes_ffi_test");
+let opened =
+  HermesReason.Utils.openDynamicLibrary(
+    "../../target/debug/libhermes_ffi_test",
+  );
 
-if(opened == false) {
+if (opened == false) {
   raise(Failure("Could not open the hermes_ffi_test dynamic library file."));
-}
+};
 
 /* Utils */
 
@@ -45,7 +48,7 @@ let roundTrip = (expect, message, typ, call) => {
 
 /* Test suite */
 
-describe("Hermes messages - round trips", ({test, testOnly, testSkip}) => {
+describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
   let hermes_ffi_test_round_trip_session_queued =
     foreign(
       "hermes_ffi_test_round_trip_session_queued",
@@ -192,68 +195,71 @@ describe("Hermes messages - round trips", ({test, testOnly, testSkip}) => {
         intent_name: "intent_name",
         confidence_score: 0.5,
       },
-      slots: [
-        {
-          value: {
-            value: String("slot_value"),
-            value_type: SNIPS_SLOT_VALUE_TYPE_CUSTOM,
-          },
-          alternatives: [
-            {
-              value: String("alternative_slot"),
+      slots:
+        Some([
+          {
+            value: {
+              value: String("slot_value"),
               value_type: SNIPS_SLOT_VALUE_TYPE_CUSTOM,
             },
-          ],
-          raw_value: "value",
-          entity: "entity",
-          slot_name: "slot_name",
-          range_start: Int32.of_int(0),
-          range_end: Int32.of_int(10),
-          confidence_score: 0.25,
-        },
-      ],
-      alternatives: [
-        {intent_name: None, slots: None, confidence_score: 0.2},
-        {
-          intent_name: Some("alternative_intent"),
-          slots:
-            Some([
+            alternatives: [
               {
-                value: {
-                  value: String("slot_value"),
-                  value_type: SNIPS_SLOT_VALUE_TYPE_CUSTOM,
-                },
-                alternatives: [
-                  {
-                    value: String("alternative_slot"),
+                value: String("alternative_slot"),
+                value_type: SNIPS_SLOT_VALUE_TYPE_CUSTOM,
+              },
+            ],
+            raw_value: "value",
+            entity: "entity",
+            slot_name: "slot_name",
+            range_start: Int32.of_int(0),
+            range_end: Int32.of_int(10),
+            confidence_score: 0.25,
+          },
+        ]),
+      alternatives:
+        Some([
+          {intent_name: None, slots: None, confidence_score: 0.2},
+          {
+            intent_name: Some("alternative_intent"),
+            slots:
+              Some([
+                {
+                  value: {
+                    value: String("slot_value"),
                     value_type: SNIPS_SLOT_VALUE_TYPE_CUSTOM,
                   },
-                ],
-                raw_value: "value",
-                entity: "entity",
-                slot_name: "slot_name",
-                range_start: Int32.of_int(0),
-                range_end: Int32.of_int(10),
-                confidence_score: 0.25,
-              },
-            ]),
-          confidence_score: 0.7,
-        },
-      ],
-      asr_tokens: [
-        [
-          {
-            time: {
-              start: 0.4,
-              end_: 0.8,
-            },
-            range_start: Int32.of_int(7),
-            range_end: Int32.of_int(10),
-            confidence: 0.3,
-            value: "dog",
+                  alternatives: [
+                    {
+                      value: String("alternative_slot"),
+                      value_type: SNIPS_SLOT_VALUE_TYPE_CUSTOM,
+                    },
+                  ],
+                  raw_value: "value",
+                  entity: "entity",
+                  slot_name: "slot_name",
+                  range_start: Int32.of_int(0),
+                  range_end: Int32.of_int(10),
+                  confidence_score: 0.25,
+                },
+              ]),
+            confidence_score: 0.7,
           },
-        ],
-      ],
+        ]),
+      asr_tokens:
+        Some([
+          [
+            {
+              time: {
+                start: 0.4,
+                end_: 0.8,
+              },
+              range_start: Int32.of_int(7),
+              range_end: Int32.of_int(10),
+              confidence: 0.3,
+              value: "dog",
+            },
+          ],
+        ]),
       asr_confidence: 0.5,
     };
 
@@ -450,17 +456,6 @@ describe("Hermes messages - round trips", ({test, testOnly, testSkip}) => {
     );
   });
 
-  test("CInjectionResetRequestMessage", ({expect}) => {
-    let message: CInjectionResetRequestMessage.t_view = {request_id: "id"};
-
-    roundTrip(
-      expect,
-      message,
-      CInjectionResetRequestMessage.view,
-      hermes_ffi_test_round_trip_injection_reset_request,
-    );
-  });
-
   let hermes_ffi_test_round_trip_injection_reset_complete =
     foreign(
       "hermes_ffi_test_round_trip_injection_reset_complete",
@@ -515,7 +510,6 @@ describe("Hermes messages - round trips", ({test, testOnly, testSkip}) => {
     let message: RegisterSoundMessage.t_view = {
       sound_id: "sound:id",
       wav_sound: wav_bytes_list |> List.map(Unsigned.UInt8.of_int),
-      wav_sound_len: wav_bytes_list |> List.length,
     };
 
     roundTrip(

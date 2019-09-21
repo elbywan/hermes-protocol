@@ -376,9 +376,9 @@ module AsrTokenDoubleList = {
     site_id: "string",
     input: "string",
     intent: "CNluIntentClassifierResult *",
-    slots: "NluSlotList*",
-    alternatives: "NluIntentAlternativeList *",
-    asr_tokens: "AsrTokenDoubleList *",
+    slots: "NluSlotList*?",
+    alternatives: "NluIntentAlternativeList *?",
+    asr_tokens: "AsrTokenDoubleList *?",
     asr_confidence: "float",
   },
 );
@@ -549,7 +549,6 @@ module RegisterSoundMessage = {
   type t_view = {
     sound_id: string,
     wav_sound: list(Unsigned.UInt8.t),
-    wav_sound_len: int,
   };
 
   let read = (message: CRegisterSoundMessage.t_view): t_view => {
@@ -557,7 +556,6 @@ module RegisterSoundMessage = {
     wav_sound:
       CArray.from_ptr(message.wav_sound, message.wav_sound_len)
       |> CArray.to_list,
-    wav_sound_len: message.wav_sound_len,
   };
   let write = (message: t_view): CRegisterSoundMessage.t_view => {
     let wav_sound =

@@ -1,0 +1,8 @@
+{
+    "sessionId": "session id",
+    "customData": "data",
+    "siteId": "site id",
+    "input": "Hello world",
+    "confidenceScore": 0.5,
+    "alternatives": []
+}
