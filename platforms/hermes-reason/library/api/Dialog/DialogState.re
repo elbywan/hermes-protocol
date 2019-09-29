@@ -37,6 +37,7 @@ type subscriptions = {
 type t = {
   facade: lazy_t(ptr(CDialogueFacade.t_view)),
   subscriptions,
+  flowSessions: ref(list(string)),
 };
 
 let make = protocolHandler => {
@@ -56,6 +57,7 @@ let make = protocolHandler => {
     sessionQueued: None,
     sessionEnded: None,
   },
+  flowSessions: ref([]),
 };
 
 let reduce = state =>
@@ -186,6 +188,15 @@ let reduce = state =>
         ~getSubscriptions=() => state.subscriptions.sessionEnded,
         ~setSubscriptions=s => state.subscriptions.sessionEnded = s,
       );
+      state;
+    }
+  | `FlowStarted(sessionId) => {
+      state.flowSessions := [sessionId, ...state.flowSessions^];
+      state;
+    }
+  | `FlowEnded(sessionId) => {
+      state.flowSessions :=
+        state.flowSessions^ |> List.filter(id => id !== sessionId);
       state;
     }
   | _ => state;

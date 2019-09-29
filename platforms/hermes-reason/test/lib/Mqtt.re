@@ -54,6 +54,7 @@ let {describe, describeSkip, describeOnly} =
                 },
                 (),
               );
+            Unix.sleepf(0.5);
             (pid, hermes);
           })
        |> afterAll(((mosquittoPid, hermes)) => {
@@ -69,18 +70,6 @@ let {describe, describeSkip, describeOnly} =
             };
           })
        |> beforeEach(((_, hermes)) => hermes)
-       /* |> beforeEach(_ => {
-               Hermes.make(
-                 ~libraryPath="../../target/debug/libhermes_mqtt_ffi",
-                 ~debug=false,
-                 ~options={
-                   ...Hermes.defaultOptions,
-                   broker_address: "localhost:" ++ string_of_int(port^),
-                 },
-                 (),
-               )
-             })
-          |> afterEach(Hermes.destroy) */
      })
   |> build;
 

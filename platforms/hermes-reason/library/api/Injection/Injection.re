@@ -28,25 +28,34 @@ module Publish = {
 
 module Subscribe = {
   let injectionComplete = (~callback, ~once=false, hermes) => {
-    `SubscribeInjectionComplete((callback, once)) |> Hermes.perform(hermes);
+    `SubscribeInjectionComplete((callback, once))
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
   let injectionResetComplete = (~callback, ~once=false, hermes) => {
     `SubscribeInjectionResetComplete((callback, once))
-    |> Hermes.perform(hermes);
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
   let injectionStatus = (~callback, ~once=false, hermes) => {
-    `SubscribeInjectionStatus((callback, once)) |> Hermes.perform(hermes);
+    `SubscribeInjectionStatus((callback, once))
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
 };
 
 module Unsubscribe = {
   let injectionComplete = (~callback, hermes) => {
-    `UnubscribeInjectionComplete(callback) |> Hermes.perform(hermes);
+    `UnubscribeInjectionComplete(callback)
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
   let injectionResetComplete = (~callback, hermes) => {
-    `UnsubscribeInjectionResetComplete(callback) |> Hermes.perform(hermes);
+    `UnsubscribeInjectionResetComplete(callback)
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
   let injectionStatus = (~callback, hermes) => {
-    `UnsubscribeInjectionStatus(callback) |> Hermes.perform(hermes);
+    `UnsubscribeInjectionStatus(callback) |> Hermes.perform(hermes) |> ignore;
   };
 };

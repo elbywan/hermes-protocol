@@ -36,42 +36,56 @@ module Publish = {
 
 module Subscribe = {
   let intent = (~callback, ~intent, ~once=false, hermes) => {
-    `SubscribeIntent((intent, callback, once)) |> Hermes.perform(hermes);
+    `SubscribeIntent((intent, callback, once))
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
   let intents = (~callback, ~once=false, hermes) => {
-    `SubscribeIntents((callback, once)) |> Hermes.perform(hermes);
+    `SubscribeIntents((callback, once)) |> Hermes.perform(hermes) |> ignore;
   };
   let intentNotRecognized = (~callback, ~once=false, hermes) => {
-    `SubscribeIntentNotRecognized((callback, once)) |> Hermes.perform(hermes);
+    `SubscribeIntentNotRecognized((callback, once))
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
   let sessionStarted = (~callback, ~once=false, hermes) => {
-    `SubscribeSessionStarted((callback, once)) |> Hermes.perform(hermes);
+    `SubscribeSessionStarted((callback, once))
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
   let sessionQueued = (~callback, ~once=false, hermes) => {
-    `SubscribeSessionQueued((callback, once)) |> Hermes.perform(hermes);
+    `SubscribeSessionQueued((callback, once))
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
   let sessionEnded = (~callback, ~once=false, hermes) => {
-    `SubscribeSessionEnded((callback, once)) |> Hermes.perform(hermes);
+    `SubscribeSessionEnded((callback, once))
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
 };
 
 module Unsubscribe = {
   let intent = (~callback, ~intent, hermes) => {
-    `UnsubscribeIntent((intent, callback)) |> Hermes.perform(hermes);
+    `UnsubscribeIntent((intent, callback))
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
   let intents = (~callback, hermes) => {
-    `UnsubscribeIntents(callback) |> Hermes.perform(hermes);
+    `UnsubscribeIntents(callback) |> Hermes.perform(hermes) |> ignore;
   };
   let intentNotRecognized = (~callback, hermes) => {
-    `UnsubscribeIntentNotRecognized(callback) |> Hermes.perform(hermes);
+    `UnsubscribeIntentNotRecognized(callback)
+    |> Hermes.perform(hermes)
+    |> ignore;
   };
   let sessionStarted = (~callback, hermes) => {
-    `UnsubscribeSessionStarted(callback) |> Hermes.perform(hermes);
+    `UnsubscribeSessionStarted(callback) |> Hermes.perform(hermes) |> ignore;
   };
   let sessionQueued = (~callback, hermes) => {
-    `UnsubscribeSessionQueued(callback) |> Hermes.perform(hermes);
+    `UnsubscribeSessionQueued(callback) |> Hermes.perform(hermes) |> ignore;
   };
   let sessionEnded = (~callback, hermes) => {
-    `UnsubscribeSessionEnded(callback) |> Hermes.perform(hermes);
+    `UnsubscribeSessionEnded(callback) |> Hermes.perform(hermes) |> ignore;
   };
 };

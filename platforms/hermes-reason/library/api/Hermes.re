@@ -59,12 +59,13 @@ let make = (~libraryPath=".", ~debug=false, ~options=defaultOptions, unit): t =>
   {protocolHandler, state: State.make(protocolHandler)};
 };
 
-/* Facade accessors */
+/* Accessors */
 
 let dialogue = hermes => Lazy.force @@ hermes.state.dialog.facade;
 let injection = hermes => Lazy.force @@ hermes.state.injection.facade;
 let sound = hermes => Lazy.force @@ hermes.state.soundFeedback.facade;
 let tts = hermes => Lazy.force @@ hermes.state.tts.facade;
+let flowSessions = hermes => hermes.state.dialog.flowSessions^;
 
 let perform = (hermes, action) => {
   ...hermes,

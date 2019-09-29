@@ -71,6 +71,7 @@
     "ocaml": ">=4.2.0 <4.9.0",
     "refmterr": "*",
     "pesy": "*",
-    "@opam/merlin": "*"
+    "@opam/merlin": "*",
+    "isexe": "^2.0.0"
   }
 }

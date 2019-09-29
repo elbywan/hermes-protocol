@@ -391,7 +391,7 @@ module AsrTokenDoubleList = {
     session_id: "string",
     input: "string_opt",
     custom_data: "string_opt",
-    alternatives: "NluIntentAlternativeList *",
+    alternatives: "NluIntentAlternativeList *?",
     confidence_score: "float",
   },
 );

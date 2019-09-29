@@ -27,27 +27,26 @@ let run = () => {
     );
   };
 
-  let hermes =
-    hermes
-    |> Dialog.Subscribe.intents(~callback)
-    |> Dialog.Subscribe.intent(~intent="testIntent", ~callback=msg => {
-         Console.log("Early listener")
-       })
-    |> Dialog.Subscribe.intents(~once=true, ~callback=intentMessage => {
-         Console.log("Should trigger only once and for any intent")
-       });
+  hermes |> Dialog.Subscribe.intents(~callback);
+  hermes
+  |> Dialog.Subscribe.intent(~intent="testIntent", ~callback=msg => {
+       Console.log("Early listener")
+     });
+  hermes
+  |> Dialog.Subscribe.intents(~once=true, ~callback=intentMessage => {
+       Console.log("Should trigger only once and for any intent")
+     });
 
   Unix.sleep(5);
 
   Console.log("Plug off handler…");
 
+  hermes |> Dialog.Unsubscribe.intents(~callback);
   hermes
-  |> Dialog.Unsubscribe.intents(~callback)
   |> Dialog.Subscribe.intents(~callback=intentMessage => {
        /* Console.log(intentMessage) */
        Console.log("Late listener")
-     })
-  |> ignore;
+     });
   /*
    let wav_bytes_list = [0, 1, 2, 3];
    let wav_sound = wav_bytes_list |> List.map(Unsigned.UInt8.of_int);

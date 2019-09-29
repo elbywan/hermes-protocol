@@ -282,9 +282,8 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
   test("CIntentNotRecognizedMessage", ({expect}) => {
     let message: CIntentNotRecognizedMessage.t_view = {
       confidence_score: 0.99,
-      alternatives: [
-        {intent_name: None, slots: None, confidence_score: 0.2},
-      ],
+      alternatives:
+        Some([{intent_name: None, slots: None, confidence_score: 0.2}]),
       custom_data: Some("data"),
       input: Some("text"),
       session_id: "session_id",

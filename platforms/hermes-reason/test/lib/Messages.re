@@ -36,7 +36,7 @@ let intentNotRecognized =
     site_id: "site id",
     input: Some("Hello world"),
     confidence_score: 0.5,
-    alternatives: [],
+    alternatives: Some([]),
   };
 
 let intentMessage =
