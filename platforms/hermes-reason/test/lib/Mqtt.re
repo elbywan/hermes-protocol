@@ -44,30 +44,29 @@ let {describe, describeSkip, describeOnly} =
        |> beforeAll(() => {
             port := findOpenPort();
             let pid = launchMosquitto(~silent=true, port^);
-            let hermes =
-              Hermes.make(
-                ~libraryPath="../../target/debug/libhermes_mqtt_ffi",
-                ~debug=false,
-                ~options={
-                  ...Hermes.defaultOptions,
-                  broker_address: "localhost:" ++ string_of_int(port^),
-                },
-                (),
-              );
+            /* Give some time to mosquitto… */
             Unix.sleepf(0.5);
-            (pid, hermes);
+            try({
+              let hermes =
+                Hermes.make(
+                  ~libraryPath="../../target/debug/libhermes_mqtt_ffi",
+                  ~debug=false,
+                  ~options={
+                    ...Hermes.defaultOptions,
+                    broker_address: "localhost:" ++ string_of_int(port^),
+                  },
+                  (),
+                );
+              (pid, hermes);
+            }) {
+            | fail =>
+              killMosquitto(pid);
+              raise(fail);
+            };
           })
        |> afterAll(((mosquittoPid, hermes)) => {
             Hermes.destroy(hermes);
-            if (mosquittoPid > 0) {
-              Console.log(
-                "> Killing spawned mosquitto process [PID:"
-                ++ string_of_int(mosquittoPid)
-                ++ "]",
-              );
-              Unix.kill(mosquittoPid, Sys.sigkill);
-              Unix.waitpid([WNOHANG], mosquittoPid) |> ignore;
-            };
+            killMosquitto(mosquittoPid);
           })
        |> beforeEach(((_, hermes)) => hermes)
      })

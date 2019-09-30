@@ -25,6 +25,15 @@ let launchMosquitto = (~silent=true, port) => {
   );
 };
 
+let killMosquitto = pid =>
+  if (pid > 0) {
+    Console.log(
+      "> Killing spawned mosquitto process [PID:" ++ string_of_int(pid) ++ "]",
+    );
+    Unix.kill(pid, Sys.sigkill);
+    Unix.waitpid([WNOHANG], pid) |> ignore;
+  };
+
 let publishMessage = (~port, topic, message) => {
   Unix.create_process(
     "mosquitto_pub",
