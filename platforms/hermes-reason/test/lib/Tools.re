@@ -25,6 +25,22 @@ let launchMosquitto = (~silent=true, port) => {
   );
 };
 
+let launchMosquittoConfiguration = (~silent=true, configuration) => {
+  let devNull = Unix.openfile("/dev/null", [Unix.O_WRONLY], 0x640);
+  Console.log(
+    "\n> Launching mosquitto using a configuration file. [PATH:"
+    ++ configuration
+    ++ "]",
+  );
+  Unix.create_process(
+    "mosquitto",
+    [|"mosquitto", "-c", configuration, "-v"|],
+    Unix.stdin,
+    silent ? devNull : Unix.stdout,
+    silent ? devNull : Unix.stderr,
+  );
+};
+
 let killMosquitto = pid =>
   if (pid > 0) {
     Console.log(
