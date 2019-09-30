@@ -4,8 +4,16 @@ open Structs;
 open Enums;
 open Tools;
 
+/* Hermes debug mode. */
+Unix.putenv("RUST_LOG", "debug");
+let debug = false;
+/* Mosquitto verbosity. */
+let silent = true;
+
+/* Mosquitto port. */
 let port = ref(0);
 
+/* Generic test about publishing mqtt messages. */
 let testPublish = (~expect, ~hermes, ~topic, callback) =>
   try(
     expect.string(receiveMessage(~port=port^, topic, () => callback(hermes))).
@@ -16,6 +24,7 @@ let testPublish = (~expect, ~hermes, ~topic, callback) =>
     raise(e);
   };
 
+/* Generic test about subscribing to mqtt events. */
 let testSubscribe = (~expect, ~hermes, ~topic, ~name, subscription) =>
   try(
     {
@@ -35,22 +44,21 @@ let testSubscribe = (~expect, ~hermes, ~topic, ~name, subscription) =>
     raise(e);
   };
 
-/* Unix.putenv("RUST_LOG", "debug"); */
-
+/* Lifecycles. */
 let {describe, describeSkip, describeOnly} =
   describeConfig
   |> withLifecycle(testLifecycle => {
        testLifecycle
        |> beforeAll(() => {
             port := findOpenPort();
-            let pid = launchMosquitto(~silent=true, port^);
+            let pid = launchMosquitto(~silent, port^);
             /* Give some time to mosquitto… */
             Unix.sleepf(0.5);
             try({
               let hermes =
                 Hermes.make(
                   ~libraryPath="../../target/debug/libhermes_mqtt_ffi",
-                  ~debug=false,
+                  ~debug,
                   ~options={
                     ...Hermes.defaultOptions,
                     broker_address: "localhost:" ++ string_of_int(port^),
@@ -72,6 +80,7 @@ let {describe, describeSkip, describeOnly} =
      })
   |> build;
 
+/* Actual test suite. */
 describe("High Level Api", ({describe}) => {
   describe("Publish messages", ({test, testSkip}) => {
     test("Start session", ({expect, env: hermes}) => {
