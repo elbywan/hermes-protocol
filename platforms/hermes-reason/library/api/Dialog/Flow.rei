@@ -3,7 +3,7 @@ and intentListener = (Structs.CIntentMessage.t_view, t) => t
 and notRecognizedListener =
   (Structs.CIntentNotRecognizedMessage.t_view, t) => t;
 
-let start:
+let entry:
   (
     ~intent: StateUtils.StringMap.key,
     ~callback: (Structs.CIntentMessage.t_view, t) => t,

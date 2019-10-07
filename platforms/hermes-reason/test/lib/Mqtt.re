@@ -30,7 +30,7 @@ describe("High Level Api", ({describe}) => {
         ~hermes,
         ~topic="hermes/dialogueManager/continueSession",
         Dialog.Publish.continueSession({
-          session_id: "session id",
+          session_id: "677a2717-7ac8-44f8-9013-db2222f7923d",
           text: Some("text"),
           intent_filter: Some(["intentA", "intentB"]),
           custom_data: None,
@@ -149,7 +149,7 @@ describe("High Level Api", ({describe}) => {
     });
   });
 
-  describe("Subscribe to messages", ({test}) => {
+  describe("Subscribe to messages", ({test, testSkip}) => {
     test("Session started", ({expect, env: hermes}) => {
       testSubscribe(
         ~expect,
@@ -198,31 +198,6 @@ describe("High Level Api", ({describe}) => {
       )
     });
 
-    test("Intent received - specific", ({expect, env: hermes}) => {
-      testSubscribe(
-        ~expect,
-        ~hermes,
-        ~topic="hermes/intent/jelb:lightsColor",
-        ~name="Intent",
-        Dialog.Subscribe.intent(
-          ~once=true, ~intent="jelb:lightsColor", ~callback=msg => {
-          expect.equal(Messages.intentMessage, msg)
-        }),
-      )
-    });
-
-    test("Intent received - any", ({expect, env: hermes}) => {
-      testSubscribe(
-        ~expect,
-        ~hermes,
-        ~topic="hermes/intent/jelb:lightsColor",
-        ~name="Intent",
-        Dialog.Subscribe.intents(~once=true, ~callback=msg => {
-          expect.equal(Messages.intentMessage, msg)
-        }),
-      )
-    });
-
     test("Injection complete", ({expect, env: hermes}) => {
       testSubscribe(
         ~expect,
@@ -255,6 +230,31 @@ describe("High Level Api", ({describe}) => {
         ~name="InjectionStatus",
         Injection.Subscribe.injectionStatus(~once=true, ~callback=msg => {
           expect.equal(Messages.injectionStatus, msg)
+        }),
+      )
+    });
+
+    test("Intent received - specific", ({expect, env: hermes}) => {
+      testSubscribe(
+        ~expect,
+        ~hermes,
+        ~topic="hermes/intent/jelb:lightsColor",
+        ~name="Intent",
+        Dialog.Subscribe.intent(
+          ~once=true, ~intent="jelb:lightsColor", ~callback=msg => {
+          expect.equal(Messages.intentMessage, msg)
+        }),
+      )
+    });
+
+    test("Intent received - any", ({expect, env: hermes}) => {
+      testSubscribe(
+        ~expect,
+        ~hermes,
+        ~topic="hermes/intent/jelb:lightsColor",
+        ~name="Intent",
+        Dialog.Subscribe.intents(~once=true, ~callback=msg => {
+          expect.equal(Messages.intentMessage, msg)
         }),
       )
     });

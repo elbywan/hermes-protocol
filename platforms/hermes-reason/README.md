@@ -1,28 +1,29 @@
 # hermes-reason
 
-
-[![CircleCI](https://circleci.com/gh/yourgithubhandle/hermes-reason/tree/master.svg?style=svg)](https://circleci.com/gh/yourgithubhandle/hermes-reason/tree/master)
-
-
 **Contains the following libraries and executables:**
 
 ```
-hermes-reason@0.0.0
-│
-├─test/
-│   name:    TestHermesReason.exe
-│   main:    TestHermesReason
-│   require: hermes-reason.lib
+hermes-reason@0.0.1
 │
 ├─library/
 │   library name: hermes-reason.lib
 │   namespace:    HermesReason
-│   require:
+│   require:      ctypes ctypes.foreign console.lib
 │
-└─executable/
-    name:    HermesReasonApp.exe
-    main:    HermesReasonApp
-    require: hermes-reason.lib
+├─test/lib/
+│   library name: hermes-reason.test.lib
+│   namespace:    HermesReasonTestLib
+│   require:      hermes-reason.lib rely.lib ctypes ctypes.foreign
+│
+├─test/
+│   name:    HermesReasonTests.exe
+│   main:    HermesReasonTests
+│   require: hermes-reason.test.lib
+│
+└─examples/
+    name:    HermesReasonExample.exe
+    main:    HermesReasonExample
+    require: hermes-reason.lib ctypes ctypes.foreign
 ```
 
 ## Developing:

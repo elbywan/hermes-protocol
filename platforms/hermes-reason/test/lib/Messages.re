@@ -31,7 +31,7 @@ let sessionEnded =
 
 let intentNotRecognized =
   CIntentNotRecognizedMessage.{
-    session_id: "session id",
+    session_id: "677a2717-7ac8-44f8-9013-db2222f7923d",
     custom_data: Some("data"),
     site_id: "site id",
     input: Some("Hello world"),

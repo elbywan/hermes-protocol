@@ -68,7 +68,7 @@ let publishMessage = (~port, topic, message) => {
   );
 };
 
-let receiveMessage = (~timeout=0.2, ~port, topic, send) => {
+let receiveMessage = (~timeout=0.2, ~callback=() => (), ~port, topic) => {
   let message = ref("");
 
   try({
@@ -79,7 +79,7 @@ let receiveMessage = (~timeout=0.2, ~port, topic, send) => {
 
     Unix.sleepf(timeout);
 
-    send();
+    callback();
 
     let thread =
       Thread.create(

@@ -108,7 +108,7 @@ let rec endRound = flow =>
     flow.hermes |> Dialog.Publish.continueSession(message);
   };
 
-let start = (~intent, ~callback, hermes) => {
+let entry = (~intent, ~callback, hermes) => {
   hermes
   |> Dialog.Subscribe.intent(
        ~intent,

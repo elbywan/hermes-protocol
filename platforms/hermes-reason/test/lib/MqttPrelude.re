@@ -16,7 +16,9 @@ let port = ref(0);
 /* Generic test about publishing mqtt messages. */
 let testPublish = (~expect, ~hermes, ~topic, callback) =>
   try(
-    expect.string(receiveMessage(~port=port^, topic, () => callback(hermes))).
+    expect.string(
+      receiveMessage(~port=port^, ~callback=() => callback(hermes), topic),
+    ).
       toMatchSnapshot()
   ) {
   | e =>
@@ -72,10 +74,19 @@ let {describe, describeSkip, describeOnly} =
               raise(fail);
             };
           })
-       |> afterAll(((mosquittoPid, hermes)) => {
-            Hermes.destroy(hermes);
-            killMosquitto(mosquittoPid);
-          })
+       |> afterAll(((mosquittoPid, hermes)) =>
+            try(
+              {
+                Hermes.destroy(hermes);
+                killMosquitto(mosquittoPid);
+                Unix.sleepf(0.5);
+              }
+            ) {
+            | e =>
+              Printexc.print_backtrace(stderr);
+              raise(e);
+            }
+          )
        |> beforeEach(((_, hermes)) => hermes)
      })
   |> build;

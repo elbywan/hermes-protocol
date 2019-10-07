@@ -75,9 +75,6 @@ let perform = (hermes, action) => {
 /* Destructor */
 
 let destroy = (hermes: t) => {
-  hermes_destroy_mqtt_protocol_handler(hermes.protocolHandler)
-  |> checkSnipsResult;
-
   let destroyFacade = (facade, destroy) =>
     if (Lazy.is_val @@ facade) {
       destroy(Lazy.force @@ facade) |> checkSnipsResult;
@@ -90,4 +87,7 @@ let destroy = (hermes: t) => {
     hermes_drop_sound_feedback_facade,
   );
   destroyFacade(hermes.state.tts.facade, hermes_drop_tts_facade);
+
+  hermes_destroy_mqtt_protocol_handler(hermes.protocolHandler)
+  |> checkSnipsResult;
 };

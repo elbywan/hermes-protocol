@@ -11,9 +11,7 @@ let run = () => {
     );
 
   hermes
-  |> Flow.start(
-       ~intent="some:intent",
-       ~callback=(msg: Structs.CIntentMessage.t_view, flow) => {
+  |> Flow.entry(~intent="some:intent", ~callback=(msg, flow) => {
        open Flow;
 
        let byeAndEnd = (_, flow) => {
