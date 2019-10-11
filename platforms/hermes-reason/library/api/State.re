@@ -1,8 +1,3 @@
-open Ctypes;
-open Structs;
-open Bindings;
-open Utils;
-
 type t = {
   dialog: DialogState.t,
   injection: InjectionState.t,

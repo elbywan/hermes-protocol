@@ -93,7 +93,7 @@ let receiveMessage = (~timeout=0.2, ~callback=() => (), ~port, topic) => {
                 );
             }
           ) {
-          | e => close_in_noerr(channel)
+          | _ => close_in_noerr(channel)
           },
         (),
       );
@@ -121,7 +121,7 @@ let readMessage = file => {
         String.concat("", [message^, Char.escaped @@ input_char(channel)]);
     }
   ) {
-  | e => close_in_noerr(channel)
+  | _ => close_in_noerr(channel)
   };
   message^ |> Str.(global_replace(regexp("\\\\n"), ""));
 };

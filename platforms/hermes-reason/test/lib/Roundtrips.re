@@ -29,7 +29,7 @@ let hermes_ffi_test_get_last_error =
 let check_res = result =>
   try(
     switch (result) {
-    | Error(i) =>
+    | Error(_) =>
       let errorStringPtr = allocate(string, "");
       hermes_ffi_test_get_last_error(errorStringPtr) |> ignore;
       Console.error(!@errorStringPtr);
@@ -48,7 +48,7 @@ let roundTrip = (expect, message, typ, call) => {
 
 /* Test suite */
 
-describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
+describe("Messages Round Trips", ({test, _}) => {
   let hermes_ffi_test_round_trip_session_queued =
     foreign(
       "hermes_ffi_test_round_trip_session_queued",
@@ -57,7 +57,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CSessionQueuedMessage", ({expect}) => {
+  test("CSessionQueuedMessage", ({expect, _}) => {
     let message: CSessionQueuedMessage.t_view = {
       site_id: "default",
       custom_data: Some("data"),
@@ -79,7 +79,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CSessionStartedMessage", ({expect}) => {
+  test("CSessionStartedMessage", ({expect, _}) => {
     let message: CSessionStartedMessage.t_view = {
       reactivated_from_session_id: Some("session_id_from"),
       site_id: "default",
@@ -102,7 +102,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CSessionEndedMessage", ({expect}) => {
+  test("CSessionEndedMessage", ({expect, _}) => {
     /* Error */
 
     let message: CSessionEndedMessage.t_view = {
@@ -150,7 +150,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       !*NluSlotList.view @-> !**NluSlotList.view @>> snips_result,
     );
 
-  test("CNluSlotArray", ({expect}) => {
+  test("CNluSlotArray", ({expect, _}) => {
     let nluSlot: NluSlot.t_view = {
       value: {
         value: String("slot_value"),
@@ -185,7 +185,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       !*CIntentMessage.view @-> !**CIntentMessage.view @>> snips_result,
     );
 
-  test("CIntentMessage", ({expect}) => {
+  test("CIntentMessage", ({expect, _}) => {
     let message: CIntentMessage.t_view = {
       session_id: "default",
       custom_data: Some("custom_data"),
@@ -279,7 +279,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CIntentNotRecognizedMessage", ({expect}) => {
+  test("CIntentNotRecognizedMessage", ({expect, _}) => {
     let message: CIntentNotRecognizedMessage.t_view = {
       confidence_score: 0.99,
       alternatives:
@@ -306,7 +306,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CStartSessionMessage", ({expect}) => {
+  test("CStartSessionMessage", ({expect, _}) => {
     /* Notification */
     let message: CStartSessionMessage.t_view = {
       site_id: "default",
@@ -350,7 +350,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CContinueSessionMessage", ({expect}) => {
+  test("CContinueSessionMessage", ({expect, _}) => {
     let message: CContinueSessionMessage.t_view = {
       send_intent_not_recognized: false,
       slot: Some("slotName"),
@@ -374,7 +374,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       !*CEndSessionMessage.view @-> !**CEndSessionMessage.view @>> snips_result,
     );
 
-  test("CEndSessionMessage", ({expect}) => {
+  test("CEndSessionMessage", ({expect, _}) => {
     let message: CEndSessionMessage.t_view = {
       session_id: "session_id",
       text: Some("text"),
@@ -396,7 +396,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CInjectionRequestMessage", ({expect}) => {
+  test("CInjectionRequestMessage", ({expect, _}) => {
     let message: CInjectionRequestMessage.t_view = {
       id: Some("identifier"),
       cross_language: Some("en"),
@@ -425,7 +425,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CInjectionCompleteMessage", ({expect}) => {
+  test("CInjectionCompleteMessage", ({expect, _}) => {
     let message: CInjectionCompleteMessage.t_view = {request_id: "id"};
 
     roundTrip(
@@ -444,7 +444,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CInjectionResetRequestMessage", ({expect}) => {
+  test("CInjectionResetRequestMessage", ({expect, _}) => {
     let message: CInjectionResetRequestMessage.t_view = {request_id: "id"};
 
     roundTrip(
@@ -463,7 +463,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CInjectionResetCompleteMessage", ({expect}) => {
+  test("CInjectionResetCompleteMessage", ({expect, _}) => {
     let message: CInjectionResetCompleteMessage.t_view = {request_id: "id"};
 
     roundTrip(
@@ -482,7 +482,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CMapStringToStringArray", ({expect}) => {
+  test("CMapStringToStringArray", ({expect, _}) => {
     let message: MapStringToStringList.t_view = [
       {key: "one", values: ["1", "one", "One"]},
     ];
@@ -503,7 +503,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CRegisterSoundMessage", ({expect}) => {
+  test("CRegisterSoundMessage", ({expect, _}) => {
     let wav_bytes_list = [0, 1, 2, 3];
 
     let message: RegisterSoundMessage.t_view = {
@@ -527,7 +527,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CDialogueConfigureIntent", ({expect}) => {
+  test("CDialogueConfigureIntent", ({expect, _}) => {
     let message: CDialogueConfigureIntent.t_view = {
       enable: true,
       intent_id: "Intent id",
@@ -549,7 +549,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CDialogueConfigureIntentArray", ({expect}) => {
+  test("CDialogueConfigureIntentArray", ({expect, _}) => {
     let message: DialogueConfigureIntentList.t_view = [
       {enable: true, intent_id: "Intent id"},
     ];
@@ -570,7 +570,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CDialogueConfigureMessage", ({expect}) => {
+  test("CDialogueConfigureMessage", ({expect, _}) => {
     let message: CDialogueConfigureMessage.t_view = {
       site_id: Some("default"),
       intents: Some([{enable: true, intent_id: "Intent_id"}]),
@@ -590,7 +590,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       !*CAsrToken.view @-> !**CAsrToken.view @>> snips_result,
     );
 
-  test("CAsrToken", ({expect}) => {
+  test("CAsrToken", ({expect, _}) => {
     let message: CAsrToken.t_view = {
       value: "value",
       confidence: 0.5,
@@ -616,7 +616,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       !*AsrTokenList.view @-> !**AsrTokenList.view @>> snips_result,
     );
 
-  test("CAsrTokenArray", ({expect}) => {
+  test("CAsrTokenArray", ({expect, _}) => {
     let message: AsrTokenList.t_view = [
       {
         value: "value",
@@ -644,7 +644,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       !*AsrTokenDoubleList.view @-> !**AsrTokenDoubleList.view @>> snips_result,
     );
 
-  test("CAsrTokenDoubleArray", ({expect}) => {
+  test("CAsrTokenDoubleArray", ({expect, _}) => {
     let message: AsrTokenDoubleList.t_view = [
       [
         {
@@ -676,7 +676,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CTextCapturedMessage", ({expect}) => {
+  test("CTextCapturedMessage", ({expect, _}) => {
     let message: CTextCapturedMessage.t_view = {
       text: "some text",
       tokens:
@@ -714,7 +714,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CNluIntentAlternative", ({expect}) => {
+  test("CNluIntentAlternative", ({expect, _}) => {
     let message: CNluIntentAlternative.t_view = {
       intent_name: Some("alternative_intent"),
       slots:
@@ -757,7 +757,7 @@ describe("Messages Round Trips", ({test, testOnly, testSkip}) => {
       @>> snips_result,
     );
 
-  test("CNluIntentAlternativeArray", ({expect}) => {
+  test("CNluIntentAlternativeArray", ({expect, _}) => {
     let message: NluIntentAlternativeList.t_view = [
       {
         intent_name: Some("alternative_intent"),

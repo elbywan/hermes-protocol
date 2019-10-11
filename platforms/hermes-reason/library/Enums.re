@@ -3,11 +3,11 @@ let snips_result =
     view(
       ~read=
         fun
-        | 0 => Ok()
+        | 0 => Ok(0)
         | i => Error(i),
       ~write=
         fun
-        | Ok () => 0
+        | Ok(i) => i
         | Error(i) => i,
       int,
     )

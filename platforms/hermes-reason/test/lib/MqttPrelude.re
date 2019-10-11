@@ -1,7 +1,5 @@
 open TestFramework;
 open HermesReason;
-open Structs;
-open Enums;
 open Tools;
 
 /* Hermes debug mode. */

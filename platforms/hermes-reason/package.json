@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "ReasonML & Ocaml bindings for the hermes protocol.",
   "esy": {
-    "build": "dune build -p <PACKAGE_NAME>",
-    "buildDev": "pesy",
+    "build": "refmterr dune build --profile release -p #{self.name}",
+    "buildDev": "refmterr dune build -p #{self.name}",
     "release": {
       "bin": [
         "HermesReasonExample.exe"

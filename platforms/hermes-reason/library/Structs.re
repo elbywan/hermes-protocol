@@ -19,7 +19,7 @@ module StringCast = {
       };
     };
     let size = computeSize(ptr);
-    Ctypes.string_from_ptr(charPtr, size);
+    Ctypes.string_from_ptr(charPtr, ~length=size);
   };
   let write = (str: t_view) => {
     to_voidp(CArray.of_string(str) |> CArray.start);
@@ -559,7 +559,7 @@ module RegisterSoundMessage = {
   };
   let write = (message: t_view): CRegisterSoundMessage.t_view => {
     let wav_sound =
-      Ctypes.allocate_n(uint8_t, message.wav_sound |> List.length);
+      Ctypes.allocate_n(uint8_t, ~count=message.wav_sound |> List.length);
     let pointerAddress = raw_address_of_ptr(to_voidp @@ wav_sound);
 
     message.wav_sound

@@ -1,7 +1,6 @@
 open Ctypes;
 open Structs;
 open Bindings;
-open Utils;
 open StateUtils;
 
 module IntentSubscriptions =

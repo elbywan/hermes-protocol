@@ -20,7 +20,7 @@ let run = () => {
 
        flow
        |> continue(~intent="some:farewell", ~callback=byeAndEnd)
-       |> notRecognized(~callback=(msg, flow) => {
+       |> notRecognized(~callback=(_, flow) => {
             flow
             |> continue(~intent="some:intent", ~callback=byeAndEnd)
             |> speak(

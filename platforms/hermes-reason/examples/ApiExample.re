@@ -20,7 +20,7 @@ let run = () => {
        },
      );
 
-  let callback = intentMessage => {
+  let callback = _ => {
     /* Console.log(intentMessage); */
     Console.log(
       "Should be off 5 sec after start",
@@ -29,11 +29,11 @@ let run = () => {
 
   hermes |> Dialog.Subscribe.intents(~callback);
   hermes
-  |> Dialog.Subscribe.intent(~intent="testIntent", ~callback=msg => {
+  |> Dialog.Subscribe.intent(~intent="testIntent", ~callback=_ => {
        Console.log("Early listener")
      });
   hermes
-  |> Dialog.Subscribe.intents(~once=true, ~callback=intentMessage => {
+  |> Dialog.Subscribe.intents(~once=true, ~callback=_ => {
        Console.log("Should trigger only once and for any intent")
      });
 
@@ -43,7 +43,7 @@ let run = () => {
 
   hermes |> Dialog.Unsubscribe.intents(~callback);
   hermes
-  |> Dialog.Subscribe.intents(~callback=intentMessage => {
+  |> Dialog.Subscribe.intents(~callback=_ => {
        /* Console.log(intentMessage) */
        Console.log("Late listener")
      });

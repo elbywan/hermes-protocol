@@ -20,7 +20,7 @@ let openDynamicLibrary = (~flags=[Dl.RTLD_NOW], path) => {
 
 let checkSnipsResult = (~exn=true, snipsResult) =>
   switch (snipsResult) {
-  | Error(i) =>
+  | Error(_) =>
     let errorStringPtr = allocate(string, "");
     hermes_get_last_error(errorStringPtr) |> ignore;
     let errorMessage = !@errorStringPtr;

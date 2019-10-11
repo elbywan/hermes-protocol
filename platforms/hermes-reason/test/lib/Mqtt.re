@@ -3,8 +3,8 @@ open HermesReason;
 include MqttPrelude;
 
 /* Actual test suite. */
-describe("High Level Api", ({describe}) => {
-  describe("Publish messages", ({test, testSkip}) => {
+describe("High Level Api", ({describe, _}) => {
+  describe("Publish messages", ({test, testSkip, _}) => {
     test("Start session", ({expect, env: hermes}) => {
       testPublish(
         ~expect,
@@ -149,7 +149,7 @@ describe("High Level Api", ({describe}) => {
     });
   });
 
-  describe("Subscribe to messages", ({test, testSkip}) => {
+  describe("Subscribe to messages", ({test, _}) => {
     test("Session started", ({expect, env: hermes}) => {
       testSubscribe(
         ~expect,

@@ -1,6 +1,5 @@
 open HermesReason;
 open Structs;
-open Enums;
 
 let sessionStarted =
   CSessionStartedMessage.{

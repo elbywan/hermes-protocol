@@ -1,5 +1,4 @@
 open Ctypes;
-open Structs;
 open Utils;
 
 let flattenOptList =

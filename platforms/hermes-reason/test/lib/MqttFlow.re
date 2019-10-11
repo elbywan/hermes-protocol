@@ -27,7 +27,7 @@ let endFlow = () => {
   Unix.sleepf(0.2);
 };
 
-describeSkip("Dialog flow api", ({test, testSkip}) => {
+describeSkip("Dialog flow api", ({test, _}) => {
   open Tools;
 
   test("Single dialog flow round", ({expect, env: hermes}) => {
@@ -59,7 +59,7 @@ describeSkip("Dialog flow api", ({test, testSkip}) => {
     let notRecognizedMessage =
       readMessage("./test/lib/messages/IntentNotRecognized.json");
 
-    let rec callback = (msg, flow) => {
+    let callback = (msg, flow) => {
       expect.equal(Messages.intentMessage, msg);
       flow
       |> continue(~intent="intentA", ~callback=(_, f) => f)
@@ -102,7 +102,7 @@ describeSkip("Dialog flow api", ({test, testSkip}) => {
     let rounds = ref(0);
 
     let intentMessage = readMessage("./test/lib/messages/Intent.json");
-    let rec roundCallback = (msg, flow) => {
+    let rec roundCallback = (_, flow) => {
       let continueSession = rounds^ < maxRounds;
       rounds := rounds^ + 1;
       if (continueSession) {

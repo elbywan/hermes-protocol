@@ -1,5 +1,4 @@
 open Ctypes;
-open Structs;
 open Foreign;
 open Structs;
 open Enums;
@@ -17,7 +16,7 @@ let msgView = (m, drop) =>
     ~read=
       ptr => {
         let v = !@ptr;
-        drop(ptr);
+        drop(ptr) |> ignore;
         v;
       },
     ~write=msg => Ctypes.allocate(m, msg),

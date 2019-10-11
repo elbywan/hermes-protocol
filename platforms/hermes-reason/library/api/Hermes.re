@@ -1,6 +1,5 @@
 open Bindings;
 open Structs;
-open Enums;
 open Utils;
 open Ctypes;
 
@@ -26,7 +25,7 @@ let defaultOptions =
     tls_disable_root_store: false,
   };
 
-let make = (~libraryPath=".", ~debug=false, ~options=defaultOptions, unit): t => {
+let make = (~libraryPath=".", ~debug=false, ~options=defaultOptions, ()): t => {
   let opened = Utils.openDynamicLibrary(libraryPath);
 
   if (opened == false) {

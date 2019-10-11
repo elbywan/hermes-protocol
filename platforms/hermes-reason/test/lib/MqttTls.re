@@ -1,7 +1,5 @@
 open TestFramework;
 open HermesReason;
-open Structs;
-open Enums;
 open Tools;
 
 /* Hermes debug mode. */
@@ -55,8 +53,8 @@ let {describe, describeSkip, describeOnly} =
      })
   |> build;
 
-describe("Secured mosquitto connection", ({test}) => {
-  test("Dummy message", ({expect, env: hermes}) => {
+describe("Secured mosquitto connection", ({test, _}) => {
+  test("Dummy message", _ => {
     ()
   })
 });
